@@ -1,15 +1,14 @@
 <div th:fragment="header">
     <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
         <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-            <span class="fs-4">WEB конструктор систем stewart platform</span>
+            <span class="fs-4">Управление сетевой компанией</span>
         </a>
         <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-            <a class="me-3 py-2 text-dark text-decoration-none" href="/systemAdd">Добавление системы</a>
-            <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'systemListView' %}">Просмотр систем</a>
-            <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'platformCreateView' %}">Добавление платформы</a>
-            <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'platformListView' %}">Просмотр платформ</a>
-            <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'LawCreateView' %}">Добавление закона</a>
-            <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'LawListView' %}">Просмотр закона</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/PO">Производственное отделение</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/SP">Структурное подразделение</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/VR">Вид работ</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/KO">Класс оборудования</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/TOiR">Программа ТОиР</a>
         </nav>
     </div>
 </div>
@@ -17,7 +16,7 @@
 <div th:fragment="footer">
     <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-            <p class="col-md-4 mb-0 text-muted">© 2022 САМАРСКИЙ УНИВЕРСИТЕТ</p>
+            <p class="col-md-4 mb-0 text-muted">© 2023 САМАРСКИЙ УНИВЕРСИТЕТ</p>
             <ul class="nav col-md-4 justify-content-end">
                 <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Главная страница</a></li>
                 <li class="nav-item"><a href=https://ssau.ru/ class="nav-link px-2 text-muted">https://ssau.ru/</a></li>
