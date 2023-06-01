@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать Рэс</title>
+</head>
+<body>
+
+<!--<form th:method="PATCH" th:action="@{/res/{id}(id=${res.getId()})}" th:object="${res}">-->
+<!--    <label for="title">Введите РЭС: </label>-->
+<!--    <input type="text" th:field="*{title}" id="title"/>-->
+<!--    <div style="color:red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Res Error</div>-->
+<!--    <br/>-->
+<!--    <label for="Year">Введите год: </label>-->
+<!--    <input type="text" th:field="*{year}" id="year"/>-->
+<!--    <div style="color:red" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Year Error</div>-->
+<!--    <br/>-->
+<!--    <input type="submit" value="Редактировать!"/>-->
+<!--</form>-->
+
+<div class="container mt-5 mb-5">
+    <h1>Редактирование РЭС</h1>
+    <div th:each="el : ${res}">
+        <form method="post">
+            <label for="title">Введите РЭС: </label>
+            <input type="text" th:field="*{title}" id="title"/>
+            <div style="color:red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Res Error</div>
+            <br/>
+            <label for="Year">Введите год: </label>
+            <input type="text" th:field="*{year}" id="year"/>
+            <div style="color:red" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Year Error</div>
+            <br/>
+            <input type="submit" value="Редактировать!"/>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
