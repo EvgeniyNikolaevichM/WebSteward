@@ -2,6 +2,7 @@ package com.Web.WebSteward.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 
@@ -23,6 +24,9 @@ public class Res {
     @NotEmpty(message = "Имя не должно быть пустым")
     @Size(min = 2, max = 4, message = "Год должно быть от 2 до 4 символов длиной")
     @Column(name = "year")
+    @Pattern(
+            regexp = "[0-9][0-9][0-9][0-9]",
+            message = "Не соответствует формату год")
     private String year;
 
     public Res() {
