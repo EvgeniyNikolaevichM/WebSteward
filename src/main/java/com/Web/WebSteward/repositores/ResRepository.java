@@ -1,4 +1,4 @@
-package com.Web.WebSteward.interfaces;
+package com.Web.WebSteward.repositores;
 
 import com.Web.WebSteward.models.Res;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,5 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface ResRepository extends JpaRepository<Res, Integer> {
-//    Optional<Res> FindByTitle(String title);
 }

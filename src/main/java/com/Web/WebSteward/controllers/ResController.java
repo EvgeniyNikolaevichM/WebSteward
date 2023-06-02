@@ -1,5 +1,6 @@
 package com.Web.WebSteward.controllers;
 
+import com.Web.WebSteward.interfaces.resInterface;
 import com.Web.WebSteward.models.Res;
 import com.Web.WebSteward.services.ResService;
 import jakarta.validation.Valid;
@@ -9,18 +10,20 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/res")
 public class ResController {
 
     private final ResService resService;
-
     @Autowired
     public ResController(ResService resService) {
         this.resService = resService;
     }
-
+    @Autowired
+    private resInterface resInterface;
 
     @GetMapping()
     public String index(Model model) {
@@ -29,13 +32,16 @@ public class ResController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("title", resService.findOne(id));
-        model.addAttribute("year", resService.findOne(id));
-
+    public String ResDetails(@PathVariable(value = "id") int id, Model model) {
+        if(!resInterface.existsById(id)){
+            return "redirect:/";
+        }
+        Optional<Res> Res = resInterface.findById(id);
+        ArrayList<Res> ressp = new ArrayList<>();
+        Res.ifPresent(ressp::add);
+        model.addAttribute("res", ressp);
         return "res/show";
     }
-
 
     @GetMapping("/new")
     public String newRes(@ModelAttribute("res") Res res) {
@@ -45,34 +51,40 @@ public class ResController {
     @PostMapping()
     public String create(@ModelAttribute("res") @Valid Res res,
                          BindingResult bindingResult) {
-//        resValidator.validate(res, bindingResult);
-
         if (bindingResult.hasErrors())
             return "res/new";
-
         resService.save(res);
         return "redirect:/res";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("title", resService.findOne(id));
+    public String ResEdit(@PathVariable(value = "id") int id, Model model) {
+        if(!resInterface.existsById(id)){
+            return "redirect:/";
+        }
+        Optional<Res> Res = resInterface.findById(id);
+        ArrayList<Res> res = new ArrayList<>();
+        Res.ifPresent(res::add);
+        model.addAttribute("res", res);
         return "res/edit";
     }
 
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("res") @Valid Res res, BindingResult bindingResult,
-                         @PathVariable("id") int id) {
+    @PostMapping("/{id}/edit")
+    public String ResEditUpdate(@PathVariable(value = "id") int id, @RequestParam String title,
+                                @RequestParam String year, Model model,@ModelAttribute("res") @Valid Res res, BindingResult bindingResult){
+        Res Res = resInterface.findById(id).orElseThrow();
+        Res.setTitle(title);
+        Res.setYear(year);
         if (bindingResult.hasErrors())
             return "res/edit";
-
-        resService.update(id, res);
+        resInterface.save(Res);
         return "redirect:/res";
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id) {
-        resService.delete(id);
+    @PostMapping("/{id}/remove")
+    public String ResDelete(@PathVariable(value = "id") int id, Model model){
+        Res Res = resInterface.findById(id).orElseThrow();
+        resInterface.delete(Res);
         return "redirect:/res";
     }
 }

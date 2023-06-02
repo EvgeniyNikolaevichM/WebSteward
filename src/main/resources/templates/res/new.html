@@ -1,36 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <title>Добавление</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>New res</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/res}" th:object="${res}">
-    <label for="title">Введите название РЭС: </label>
-    <input type="text" th:field="*{title}" id="title"/>
-    <div style="color:red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">title Error</div>
-    <br/>
-    <label for="year">Введите год: </label>
-    <input type="text" th:field="*{year}" id="year"/>
-    <div style="color:red" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Year Error</div>
-    <br/>
-    <input type="submit" value="Create!"/>
-</form>
+<header th:insert="base :: header"></header>
 
-<!--<form action="/res/new" method="post">-->
-<!--    <input type="text" name="title" placeholder="Введите название" class="form-control"><br>-->
-<!--    <input type="year" name="year" placeholder="Введите год" class="form-control"><br>-->
-<!--    <button type="submit" class="btn btn-success">Добавить</button>-->
-<!--</form>-->
+<div class="container mt-5 mb-5">
+    <h1>Добавление РЭС</h1>
+    <form th:method="POST" th:action="@{/res}" th:object="${res}">
+        <input type="text" name="title" placeholder="Введите название" class="form-control"><br>
+        <div style="color:red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">title Error</div>
+        <br/>
+        <input type="text" name="year" placeholder="Выбрать год" class="form-control"><br>
+        <div style="color:red" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Year Error</div>
+        <input type="submit" value="Добавить"/>
+    </form>
+</div>
 
-<!--<form th:method="POST" th:action="@{/res}" th:object="${res}">-->
-<!--    <input type="text" name="title" placeholder="Введите название" class="form-control"><br>-->
-<!--    <input type="year" name="year" placeholder="Введите год" class="form-control"><br>-->
-<!--    <button type="submit" class="btn btn-success">Добавить</button>-->
-<!--</form>-->
-
+<footer th:insert="/base :: footer"></footer>
 
 </body>
 </html>

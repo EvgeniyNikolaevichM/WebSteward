@@ -1,45 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Show</title>
+    <title>Район электрических сетей</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
+<header th:insert="base :: header"></header>
 
-<p th:text="${res.getTitle() + ', ' + res.getYear()}">VALUE</p>
-
-<!--&lt;!&ndash;<div th:if="${books.isEmpty()}">&ndash;&gt;-->
-<!--&lt;!&ndash;    <p>Человек пока не взял ни одной книги</p>&ndash;&gt;-->
-<!--&lt;!&ndash;    <hr/>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-<!--<div th:if="${!books.isEmpty()}">-->
-<!--    <hr/>-->
-<!--    <b>Книги:</b>-->
-<!--    <br/>-->
-<!--    <table th:each="book : ${books}">-->
-<!--        <tr>-->
-<!--            <td>-->
-<!--                <span th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"-->
-<!--                   th:style="${book.isExpired()} ? 'color: red' : 'color: black'">-->
-<!--                    book-->
-<!--                </span>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--    </table>-->
-<!--    <hr/>-->
-<!--</div>-->
-
-<form th:method="GET" th:action="@{/res/{id}/edit(id=${res.getId()})}">
-    <input type="submit" value="Редактировать"/>
-</form>
-
-<form th:method="DELETE" th:action="@{/res/{id}(id=${res.getId()})}">
-    <input type="submit" value="Удалить"/>
-</form>
+<div class="container mt-5">
+    <div th:each="el : ${res}" class="alert alert-info mt-2">
+        <h3 th:text="${el.title}"/>
+        <h3 th:text="${el.year}"/>
+        <a th:href="'/res/' + ${el.id} + '/edit'" class="btn btn-warning">Редактировать</a><br><br>
+        <form th:action="'/res/' + ${el.id} + '/remove'" method="post">
+            <button class="btn btn-warning" type="submit">Удалить</button>
+        </form>
+    </div>
+</div>
 
 
 </body>
+
+<footer th:insert="/base :: footer"></footer>
+
 </html>

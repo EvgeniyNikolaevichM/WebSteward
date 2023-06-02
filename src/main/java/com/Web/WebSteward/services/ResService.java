@@ -1,14 +1,11 @@
 package com.Web.WebSteward.services;
 
-import com.Web.WebSteward.interfaces.ResRepository;
+import com.Web.WebSteward.repositores.ResRepository;
 import com.Web.WebSteward.models.Res;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,32 +45,4 @@ public class ResService {
     public void delete(int id) {
         resRepository.deleteById(id);
     }
-
-//    public Optional<Res> getResTitle(String title) {
-//        return resRepository.FindByTitle(title);
-//    }
-
-//    public List<Book> getBooksByPersonId(int id) {
-//        Optional<Person> person = peopleRepository.findById(id);
-//
-//        if (person.isPresent()) {
-//            Hibernate.initialize(person.get().getBooks());
-//            // Мы внизу итерируемся по книгам, поэтому они точно будут загружены, но на всякий случай
-//            // не мешает всегда вызывать Hibernate.initialize()
-//            // (на случай, например, если код в дальнейшем поменяется и итерация по книгам удалится)
-//
-//            // Проверка просроченности книг
-//            person.get().getBooks().forEach(book -> {
-//                long diffInMillies = Math.abs(book.getTakenAt().getTime() - new Date().getTime());
-//                // 864000000 милисекунд = 10 суток
-//                if (diffInMillies > 864000000)
-//                    book.setExpired(true); // книга просрочена
-//            });
-//
-//            return person.get().getBooks();
-//        }
-//        else {
-//            return Collections.emptyList();
-//        }
-//    }
 }
