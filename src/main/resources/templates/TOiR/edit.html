@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактирование</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<header th:insert="base :: header"></header>
+
+<div class="container mt-5 mb-5">
+    <h1>Редактирование ТОиР</h1>
+    <div th:each="el : ${TOiR}">
+        <form method="post">
+            <input type="text" th:value="${el.klassOborud}" name="klassOborud" placeholder="Введите класс оборудования" class="form-control"><br>
+            <br/>
+            <input type="text" th:value="${el.VidRabot}" name="VidRabot" placeholder="Введите вид работ" class="form-control"><br>
+            <br/>
+            <input type="text" th:value="${el.Date}" name="Date" placeholder="Введите дату работ" class="form-control"><br>
+            <br/>
+            <button type="submit" class="btn btn-success">Обновить</button>
+        </form>
+    </div>
+
+</div>
+
+<footer th:insert="/base :: footer"></footer>
+
+</body>
+</html>

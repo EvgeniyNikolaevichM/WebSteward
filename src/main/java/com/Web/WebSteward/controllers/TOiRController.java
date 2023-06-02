@@ -1,82 +1,95 @@
 package com.Web.WebSteward.controllers;
 
+import com.Web.WebSteward.interfaces.resInterface;
 import com.Web.WebSteward.interfaces.tOiRInterface;
+import com.Web.WebSteward.models.Res;
 import com.Web.WebSteward.models.TOiR;
+import com.Web.WebSteward.services.ResService;
+import com.Web.WebSteward.services.TOiRService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/TOiR")
 public class TOiRController {
 
+    private final TOiRService toirService;
     @Autowired
-    private tOiRInterface TOiRInterface;
+    public TOiRController(TOiRService toirService) {
+        this.toirService = toirService;
+    }
+    @Autowired
+    private tOiRInterface tOiRInterface;
 
-    @GetMapping("/TOiR")
-    public String TOiR(Model model) {
-        Iterable<TOiR> TOiR = TOiRInterface.findAll();
-        model.addAttribute("TOiR", TOiR);
-        return "/TOiR/TOiR";
+    @GetMapping()
+    public String index(Model model) {
+        model.addAttribute("TOiR", toirService.findAll());
+        return "TOiR/index";
     }
 
-    @GetMapping("/TOiRAdd")
-    public String TOiRAdd(Model model) {
-        return "/TOiR/TOiRAdd";
-    }
-
-    @PostMapping("/TOiRAdd")
-    public String newTOiRAdd(@RequestParam String KlassOborud, @RequestParam String VidRabot, @RequestParam String Date, Model model){
-        TOiR TOiR = new TOiR(KlassOborud, VidRabot, Date);
-        TOiRInterface.save(TOiR);
-        return "redirect:/TOiR";
-    }
-
-    @GetMapping("/TOiR/{id}")
+    @GetMapping("/{id}")
     public String TOiRDetails(@PathVariable(value = "id") long id, Model model) {
-        if(!TOiRInterface.existsById(id)){
-            return "redirect:/TOiR";
+        if(!tOiRInterface.existsById(id)){
+            return "redirect:/";
         }
-        Optional<TOiR> TOiR = TOiRInterface.findById(id);
+        Optional<TOiR> TOiR = tOiRInterface.findById(id);
         ArrayList<TOiR> ressp = new ArrayList<>();
         TOiR.ifPresent(ressp::add);
         model.addAttribute("TOiR", ressp);
-        return "/TOiR/TOiRDetails";
+        return "TOiR/show";
     }
 
-    @GetMapping("/TOiR/{id}/edit")
+    @GetMapping("/new")
+    public String newTOiR(@ModelAttribute("TOiR") TOiR TOiR) {
+        return "TOiR/new";
+    }
+
+    @PostMapping()
+    public String create(@ModelAttribute("TOiR") @Valid TOiR TOiR,
+                         BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "TOiR/new";
+        toirService.save(TOiR);
+        return "redirect:/TOiR";
+    }
+
+    @GetMapping("/{id}/edit")
     public String TOiREdit(@PathVariable(value = "id") long id, Model model) {
-        if(!TOiRInterface.existsById(id)){
-            return "redirect:/TOiR";
+        if(!tOiRInterface.existsById(id)){
+            return "redirect:/";
         }
-        Optional<TOiR> TOiR = TOiRInterface.findById(id);
-        ArrayList<TOiR> res = new ArrayList<>();
-        TOiR.ifPresent(res::add);
-        model.addAttribute("TOiR", res);
-        return "/TOiR/TOiREdit";
+        Optional<TOiR> TOiR = tOiRInterface.findById(id);
+        ArrayList<TOiR> toir = new ArrayList<>();
+        TOiR.ifPresent(toir::add);
+        model.addAttribute("TOiR", toir);
+        return "TOiR/edit";
     }
 
-    @PostMapping("/TOiR/{id}/edit")
-    public String TOiREditUpdate(@PathVariable(value = "id") long id, @RequestParam String KlassOborud, @RequestParam String VidRabot, @RequestParam String Date, Model model){
-        TOiR TOiR = TOiRInterface.findById(id).orElseThrow();
-        TOiR.setKlassOborud(KlassOborud);
+    @PostMapping("/{id}/edit")
+    public String TOiREditUpdate(@PathVariable(value = "id") long id, @RequestParam String klassOborud,
+                                @RequestParam String VidRabot, @RequestParam String Date, Model model, @ModelAttribute("TOiR") @Valid TOiR toir, BindingResult bindingResult){
+        TOiR TOiR = tOiRInterface.findById(id).orElseThrow();
+        TOiR.setKlassOborud(klassOborud);
         TOiR.setVidRabot(VidRabot);
         TOiR.setDate(Date);
-        TOiRInterface.save(TOiR);
+        if (bindingResult.hasErrors())
+            return "res/edit";
+        tOiRInterface.save(TOiR);
         return "redirect:/TOiR";
     }
 
-    @PostMapping("/TOiR/{id}/remove")
+    @PostMapping("/{id}/remove")
     public String TOiRDelete(@PathVariable(value = "id") long id, Model model){
-        TOiR TOiR = TOiRInterface.findById(id).orElseThrow();
-        TOiRInterface.delete(TOiR);
-        return "redirect:/TOiR";
+        TOiR TOiR = tOiRInterface.findById(id).orElseThrow();
+        tOiRInterface.delete(TOiR);
+        return "redirect:/res";
     }
 }
